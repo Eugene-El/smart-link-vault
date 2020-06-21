@@ -1,1 +1,8 @@
-<p>menu works!</p>
+
+<div class="menu-container">
+    <a *ngFor="let page of dataSources.routes"
+        [routerLink]="page.path" routerLinkActive="activated"
+        class="menu-link header">
+        {{ page.title }}
+    </a>
+</div>

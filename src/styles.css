@@ -1,11 +1,30 @@
 
 :root {
-    --cl-dark-1: #022C41; /* #022C41 */
+    --cl-dark-1: #022C41;
+    --cl-dark-2: #033b57;
     --cl-light-1: #00adb5;
+}
+
+@font-face {
+    font-family: "Human";
+    src: url("assets/fonts/Human.eot");
+    src: url("assets/fonts/Human.eot?#iefix") format("embedded-opentype"),
+      url("assets/fonts/Human.otf") format("opentype"),
+      url("assets/fonts/Human.svg") format("svg"),
+      url("assets/fonts/Human.ttf") format("truetype"),
+      url("assets/fonts/Human.woff") format("woff"),
+      url("assets/fonts/Human.woff2") format("woff2");
+
+    font-weight: normal;
+    font-style: normal;
 }
 
 html, body {
     margin: 0;
+
+    font-family: "Human", "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 html {
@@ -15,4 +34,8 @@ html {
     overflow: hidden;
     background-color: var(--cl-dark-1);
     color: var(--cl-light-1);
+}
+
+.header {
+    font-size: 24px;
 }
