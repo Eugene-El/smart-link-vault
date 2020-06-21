@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChromeService } from 'src/app/common/services/chrome.service';
 
 @Component({
   selector: 'slv-save-session',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SaveSessionComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private chromeService: ChromeService
+  ) { }
 
   ngOnInit() {
+    this.chromeService.getTabs().then(tabs => {
+      console.log(tabs);
+    });
   }
 
 }

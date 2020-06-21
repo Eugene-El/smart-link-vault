@@ -15,8 +15,7 @@ a.menu-link {
     justify-content: center;
     align-items: center;
     
-    transition-property: padding, background-color, text-shadow;
-    transition-duration: 0.5s;
+    transition: padding 0.3s, background-color 0.5s, text-shadow 0.7s;
 }
 
 a.activated {
