@@ -1,4 +1,6 @@
-<div>
+<div class="content-wrapper">
     <slv-menu></slv-menu>
-    <router-outlet></router-outlet>
+    <div [style.height.px]="options.routerHeight">
+        <router-outlet></router-outlet>
+    </div>
 </div>

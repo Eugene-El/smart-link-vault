@@ -3,6 +3,7 @@
     --cl-dark-1: #022C41;
     --cl-dark-2: #033b57;
     --cl-light-1: #00adb5;
+    --cl-light-2: #006c72;
 }
 
 @font-face {
@@ -18,6 +19,21 @@
     font-weight: normal;
     font-style: normal;
 }
+
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: var(--cl-dark-2);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--cl-light-1);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--cl-light-2);
+}
+
 
 html, body {
     margin: 0;
@@ -36,6 +52,29 @@ html {
     color: var(--cl-light-1);
 }
 
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+
+
 .header {
     font-size: 24px;
+}
+
+.page-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.page-content > div:nth-child(1) {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.page-content > div:nth-child(2) {
+    flex-shrink: 0;
+
+    border-top: 2px solid var(--cl-light-1);
+    padding: 10px;
 }
