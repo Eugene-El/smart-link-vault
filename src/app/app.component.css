@@ -3,3 +3,10 @@
     display: grid;
     grid-template-rows: auto 1fr;
 }
+
+.content-wrapper > div:nth-child(1) {
+    height: 67px;
+}
+.content-wrapper > div:nth-child(2) {
+    height: calc(100vh - 67px);
+}

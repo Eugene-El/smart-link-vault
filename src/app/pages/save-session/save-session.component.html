@@ -1,40 +1,22 @@
 <div class="page-content">
-  <div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>last test</div>
+  <div class="tab-list">
+    <div *ngFor="let tab of dataSources.tabs" class="tab"
+      (click)="tab.selected = !tab.selected">
+      <div>
+        <svg class="visual-checkbox" viewBox="0 0 22 22" [ngClass]="{ 'checked': tab.selected }">
+          <rect x="1" y="1" width="20" height="20" rx="4" ry="4"></rect>
+          <polyline points="3,14 10,18 18,3"></polyline>
+        </svg>
+      </div>
+      <div>
+        <div class="icon-box">
+          <img [src]="tab.iconUrl" width="16" height="16" />
+        </div>
+      </div>
+      <div>
+        {{ tab.title }}
+      </div>
+    </div>
   </div>
   <div class="page-footer">
     <div>Testing footer</div>

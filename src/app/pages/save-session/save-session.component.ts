@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChromeService } from 'src/app/common/services/chrome.service';
+import { SelectTabModel } from 'src/app/common/models/session/selectTabModel';
 
 @Component({
   selector: 'slv-save-session',
@@ -13,9 +14,21 @@ export class SaveSessionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.chromeService.getTabs().then(tabs => {
-      console.log(tabs);
-    });
+
+    this.methods.getTabs();
+  
   }
 
+  dataSources = {
+    tabs: new Array<SelectTabModel>()
+  }
+
+  methods = {
+    getTabs: () => {
+      this.chromeService.getTabs().then(tabs => {
+        this.dataSources.tabs = tabs.map(t => new SelectTabModel(true, t.id, t.title, t.url, t.iconUrl, t.pinned));
+      });
+    }
+
+  }
 }
