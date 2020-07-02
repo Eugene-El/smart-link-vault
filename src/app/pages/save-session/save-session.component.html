@@ -10,7 +10,7 @@
       </div>
       <div>
         <div class="icon-box">
-          <img [src]="tab.iconUrl" width="16" height="16" />
+          <img [src]="tab.iconUrl | icon" width="16" height="16" />
         </div>
       </div>
       <div>
@@ -19,6 +19,15 @@
     </div>
   </div>
   <div class="page-footer">
-    <div>Testing footer</div>
+    <div>
+      <button mat-stroked-button color="primary">
+        <mat-icon>save</mat-icon>
+        Save new
+      </button>
+      <button mat-stroked-button color="primary">
+        <mat-icon>update</mat-icon>
+        Update existing
+      </button>
+    </div>
   </div>
 </div>

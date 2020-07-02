@@ -1,5 +1,5 @@
-.tab-list {
-}
+/* .tab-list {
+} */
 .tab {
     padding: 12px 6px;
     
@@ -17,7 +17,7 @@
 }
 .tab .icon-box {
     background-color: var(--cl-light-1-tr-2);
-    padding: 1px 3px 0px 3px;
+    padding: 3px 4px 0px 4px;
     border-radius: 50%;
     box-shadow: 0px 0px 5px var(--cl-light-1);
 }
@@ -64,4 +64,10 @@ svg.visual-checkbox.checked polyline {
     to {
         stroke-dashoffset: 30;
     }
+}
+
+.page-footer > div {
+    display: grid;
+    grid-column-gap: 12px;
+    grid-template-columns: auto auto 1fr;
 }

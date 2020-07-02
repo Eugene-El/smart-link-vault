@@ -17,6 +17,7 @@ export class ChromeService {
         if (tabs == null || tabs.length == 0) {
           resolve(new Array<ChromeTabModel>());
         } else {
+          console.log(tabs);
           resolve(tabs.map(t => new ChromeTabModel(t.id, t.title, t.url, t.favIconUrl, t.pinned)));
         }
       });

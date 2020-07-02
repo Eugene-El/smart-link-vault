@@ -56,6 +56,7 @@ html {
 body {
     height: 100%;
     overflow: hidden;
+    user-select: none;
 }
 
 
@@ -77,5 +78,16 @@ body {
     flex-shrink: 0;
 
     border-top: 2px solid var(--cl-light-1);
-    padding: 10px;
+    padding: 12px;
+}
+
+
+/* Fix material styles */
+.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+    font-family: "Human";
+    font-size: 17px;
+    font-weight: bold;
+}
+.mat-stroked-button:not([disabled]) {
+    border: 2px solid var(--cl-light-1);
 }
