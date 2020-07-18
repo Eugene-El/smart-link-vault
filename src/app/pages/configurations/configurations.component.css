@@ -1,0 +1,12 @@
+.configuration-content {
+    padding: 10px;
+}
+.configuration-content h1 {
+    font-size: 26px;
+    border-bottom: 2px dotted var(--cl-light-1);
+    padding-bottom: 2px;
+    margin: 0.25em 0 1em 0;
+}
+.configuration-content mat-form-field {
+    width: 100%;
+}

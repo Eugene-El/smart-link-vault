@@ -1,1 +1,37 @@
-<p>configurations works!</p>
+<div class="page-content">
+    <div class="configuration-content">
+        <div *ngIf="page.configuration != null">
+            
+            <h1>Security settings</h1>
+
+            <mat-form-field>
+                <mat-label>Place to store data</mat-label>
+                <mat-select [(ngModel)]="page.configuration.securitySettings.dataStorage">
+                    <mat-option *ngFor="let dataStorage of dataSources.dataStorages" [value]="dataStorage.id">
+                        {{ dataStorage.title }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint align="start" *ngIf="page.configuration.securitySettings.dataStorage == page.storeOnYourDeviceId">
+                    <strong>You should download storage to your PC</strong>
+                </mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Secret</mat-label>
+                <input matInput [type]="page.hideSecret ? 'password' : 'text'" [(ngModel)]="page.configuration.securitySettings.secret">
+                <button mat-icon-button matSuffix (click)="page.hideSecret = !page.hideSecret" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="page.hideSecret">
+                    <mat-icon>{{page.hideSecret ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+        </div>
+    </div>
+    <div class="page-footer">
+        <div>
+            <button mat-stroked-button color="primary" (click)="methods.saveConfiguration()">
+                <mat-icon>save</mat-icon>
+                Save
+            </button>
+        </div>
+    </div>
+</div>

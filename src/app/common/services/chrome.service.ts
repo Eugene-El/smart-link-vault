@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ChromeTabModel } from '../models/chrome/chromeTabModel';
+import { EncryptingService } from './encrypting.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChromeService {
 
-  constructor() { }
+  constructor(
+    private encryptingService: EncryptingService
+  ) { }
 
   getTabs() : Promise<Array<ChromeTabModel>> {
 
@@ -17,10 +20,41 @@ export class ChromeService {
         if (tabs == null || tabs.length == 0) {
           resolve(new Array<ChromeTabModel>());
         } else {
-          console.log(tabs);
           resolve(tabs.map(t => new ChromeTabModel(t.id, t.title, t.url, t.favIconUrl, t.pinned)));
         }
       });
+    });
+
+  }
+
+  private localSecret = "SmartLinkVault";
+  getStorageItem(key: string) : Promise<object> {
+
+    return new Promise((resolve, reject) => {
+      try
+      {
+        chrome.storage.sync.get(key, (result) => {
+          var decrypted = this.encryptingService.decryptObjectByKey(result[key], this.localSecret)
+          resolve(decrypted);
+        });
+      } catch (error) {
+        resolve(error);
+      }
+    });
+
+  }
+  setStorageItem(key: string, obj: object) : Promise<void> {
+
+    return new Promise((resolve, reject) => {
+      try
+      {
+        var encrypted = this.encryptingService.encryptObjectByKey(obj, this.localSecret);
+        chrome.storage.sync.set({ [key]: encrypted }, () => {
+          resolve();
+        });
+      } catch (error) {
+        resolve(error);
+      }
     });
 
   }
