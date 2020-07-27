@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ConfigurationService } from './common/services/configuration.service';
+import { Router } from '@angular/router';
 
 @Component({
   styleUrls: ['./app.component.css'],
@@ -8,7 +10,24 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  constructor() {}
+  constructor(
+    private configurationService: ConfigurationService,
+    private router: Router
+  ) {
+    this.configurationService.getConfiguration()
+      .then(configuration => {
+        if (configuration == null || configuration.securitySettings.dataStorage == null) {
+          this.page.allowOnlyConfiguration = true;
+          this.router.navigate(['configurations']);
+        }
+      })
+      .catch(() => {
+        this.router.navigate(['configuration']);
+      });
+  }
 
+  page = {
+    allowOnlyConfiguration: false as boolean
+  }
 
 }

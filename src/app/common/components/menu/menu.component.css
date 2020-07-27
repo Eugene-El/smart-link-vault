@@ -23,6 +23,10 @@ a.activated {
     text-shadow: 0px 0px 20px var(--cl-light-1);
 }
 
-a:hover {
+a:not(.activated):not(.disallowed):hover {
     padding: 14px 18px 22px 18px;
+}
+
+a.menu-link.disallowed {
+    cursor: not-allowed;
 }

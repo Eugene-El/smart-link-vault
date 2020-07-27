@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { RouteModel } from './models/routeModel';
 
 @Component({
@@ -8,10 +8,12 @@ import { RouteModel } from './models/routeModel';
 })
 export class MenuComponent implements OnInit {
 
+  @Input() allowOnlyConfiguration: boolean;
+
   constructor() { }
 
   ngOnInit(): void {
-    this.methods.getRoutes();
+    setTimeout(() => this.methods.getRoutes(), 0);
   }
 
   dataSources = {
@@ -21,8 +23,10 @@ export class MenuComponent implements OnInit {
   methods = {
     getRoutes: () => {
       this.dataSources.routes = new Array<RouteModel>();
-      this.dataSources.routes.push(new RouteModel("save", "Save session"));
-      this.dataSources.routes.push(new RouteModel("load", "Load session"));
+      this.dataSources.routes.push(new RouteModel("save", "Save session", !this.allowOnlyConfiguration,
+        this.allowOnlyConfiguration ? "Please, complete mandatory configuration first" : ""));
+      this.dataSources.routes.push(new RouteModel("load", "Load session", !this.allowOnlyConfiguration,
+        this.allowOnlyConfiguration ? "Please, complete mandatory configuration first" : ""));
       this.dataSources.routes.push(new RouteModel("configurations", "Configurations"));
     }
   }

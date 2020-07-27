@@ -1,8 +1,14 @@
 
 <div class="menu-container">
-    <a *ngFor="let page of dataSources.routes"
-        [routerLink]="page.path" routerLinkActive="activated"
-        class="menu-link header">
-        {{ page.title }}
-    </a>
+    <div *ngFor="let page of dataSources.routes">
+        <a *ngIf="page.allowed; else disallowedBlock" class="menu-link header"
+            [routerLink]="page.path" routerLinkActive="activated">
+            {{ page.title }}
+        </a>
+        <ng-template #disallowedBlock>
+            <a class="menu-link header disallowed" [title]="page.notAllowReason" >
+                {{ page.title }}
+            </a>
+        </ng-template>
+    </div>
 </div>

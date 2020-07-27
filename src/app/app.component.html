@@ -1,6 +1,7 @@
 <div class="content-wrapper">
     <div>
-        <slv-menu></slv-menu>
+        <slv-menu [(allowOnlyConfiguration)]="page.allowOnlyConfiguration">
+        </slv-menu>
     </div>
     <div>
         <router-outlet></router-outlet>

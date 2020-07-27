@@ -5,6 +5,7 @@
     --cl-light-1: #00adb5;
     --cl-light-1-tr-2: rgba(0, 173, 181, 0.2);
     --cl-light-2: #006c72;
+    --cl-light-gr-1: linear-gradient(90deg, rgba(0,173,181,1) 0%, rgba(0,173,181,1) 70%, rgba(0,173,181,0.14655172413793105) 100%);
 }
 
 @font-face {

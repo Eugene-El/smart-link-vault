@@ -17,7 +17,6 @@ export class EncryptingService {
   public decryptObjectByKey(str: string, key: string) : object {
     var decryptedBytes = CryptoJS.AES.decrypt(str, key);
     var decryptedStr = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    console.log(decryptedStr);
     return JSON.parse(decryptedStr);
   }
 }

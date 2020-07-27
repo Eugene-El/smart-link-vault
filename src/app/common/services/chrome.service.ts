@@ -34,8 +34,13 @@ export class ChromeService {
       try
       {
         chrome.storage.sync.get(key, (result) => {
-          var decrypted = this.encryptingService.decryptObjectByKey(result[key], this.localSecret)
-          resolve(decrypted);
+          if (result[key] == undefined)
+            resolve(null);
+          else 
+          {
+            var decrypted = this.encryptingService.decryptObjectByKey(result[key], this.localSecret)
+            resolve(decrypted);
+          }
         });
       } catch (error) {
         resolve(error);

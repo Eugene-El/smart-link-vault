@@ -25,7 +25,6 @@ export class ConfigurationService {
     return new Promise((resolve, reject) => {
       this.chromeService.getStorageItem(this.keys.configuration)
         .then((configuration: ConfigurationModel) => {
-          console.log(configuration);
           if (configuration == null)
             resolve(new ConfigurationModel(
               new SecuritySettingsModel(null, this.randomValueService.generateSecret())
