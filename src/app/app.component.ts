@@ -14,20 +14,25 @@ export class AppComponent {
     private configurationService: ConfigurationService,
     private router: Router
   ) {
-    this.configurationService.getConfiguration()
-      .then(configuration => {
-        if (configuration == null || configuration.securitySettings.dataStorage == null) {
-          this.page.allowOnlyConfiguration = true;
-          this.router.navigate(['configurations']);
-        }
-      })
-      .catch(() => {
-        this.router.navigate(['configuration']);
-      });
+    this.methods.getConfigurationStatus();
+    this.configurationService.onConfigurationUpdated.subscribe(() => this.methods.getConfigurationStatus());
   }
 
   page = {
     allowOnlyConfiguration: false as boolean
   }
 
+  methods = {
+    getConfigurationStatus: () => {
+      this.configurationService.getConfiguration()
+        .then(configuration => {
+          this.page.allowOnlyConfiguration = configuration == null || configuration.securitySettings.dataStorage == null;
+          if (this.page.allowOnlyConfiguration)
+            this.router.navigate(['configurations']);
+        })
+        .catch(() => {
+          this.router.navigate(['configuration']);
+        });
+    }
+  }
 }

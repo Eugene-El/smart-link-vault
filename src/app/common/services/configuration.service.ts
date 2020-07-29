@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { ConfigurationModel } from '../models/configuration/configurationModel';
 import { ChromeService } from './chrome.service';
 import { SecuritySettingsModel } from '../models/configuration/securitySettingsModel';
 import { RandomValueService } from './random-value.service';
-import { rejects } from 'assert';
-import { DataStorage } from '../models/configuration/dataStorage.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +17,8 @@ export class ConfigurationService {
   private keys = {
     configuration: "configuration"
   }
+
+  public onConfigurationUpdated = new EventEmitter<void>();
 
   public getConfiguration() : Promise<ConfigurationModel> {
 
@@ -44,6 +44,7 @@ export class ConfigurationService {
       this.chromeService.setStorageItem(this.keys.configuration, configuration)
         .then(() => {
           resolve();
+          this.onConfigurationUpdated.emit();
         })
         .catch((error) => {
           reject(error);

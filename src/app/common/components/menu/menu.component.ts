@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { RouteModel } from './models/routeModel';
 
 @Component({
@@ -6,15 +6,19 @@ import { RouteModel } from './models/routeModel';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnChanges {
 
   @Input() allowOnlyConfiguration: boolean;
 
   constructor() { }
-
+  
   ngOnInit(): void {
     setTimeout(() => this.methods.getRoutes(), 0);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    setTimeout(this.methods.getRoutes, 0);
+  }
+
 
   dataSources = {
     routes: new Array<RouteModel>()
