@@ -1,0 +1,13 @@
+<div class="slv-select" #select>
+  <div select (click)="method.toggleOpenes()" tabindex="0">
+    <span>
+      {{ selectedElement?.title }}
+    </span>
+  </div>
+  <div options *ngIf="page.isOpen" [style.maxHeight.px]="page.selectPopupMaxHeight"
+    [ngClass]="{ 'open-up': page.isOpenUp }">
+    <div *ngFor="let item of dataSource" (click)="method.select(item)">
+      {{ item.title }}
+    </div>
+  </div>
+</div>

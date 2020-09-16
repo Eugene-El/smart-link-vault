@@ -1,0 +1,72 @@
+.slv-select {
+    width: 100%;
+    position: relative;
+    font-family: "Human";
+}
+.slv-select > div[select] {
+    height: 34px;
+    background: transparent;
+    border: 2px solid var(--cl-light-1);
+    border-radius: 4px;
+    outline: none;
+    color: var(--cl-light-1);
+    font-family: "Human";
+    font-weight: bold;
+    font-size: 17px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 32px 0px 6px;
+}
+.slv-select > div[select]:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    right: 10px;
+    top: 16px;
+    border: 6px solid transparent;
+    border-color: var(--cl-light-1) transparent transparent transparent;
+}
+.slv-select > div[select]:hover,
+.slv-select > div[select]:focus {
+    background-color: var(--cl-light-1-tr-04);
+}
+.slv-select > div[select] > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.slv-select > div[options] {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    right: 0;
+    z-index: 99;
+
+    background-color: var(--cl-dark-1);
+    border: 2px solid var(--cl-light-1);
+    border-radius: 4px;
+
+    overflow-y: auto;
+}
+.slv-select > div[options].open-up {
+    top: unset;
+    bottom: 36px;
+}
+
+
+.slv-select > div[options] > div {
+    padding: 6px;
+    cursor: pointer;
+}
+.slv-select > div[options] > div:hover {
+    background-color: var(--cl-light-1-tr-04);
+}
+
+.slv-select ::-webkit-scrollbar {
+    width: 8px;
+}

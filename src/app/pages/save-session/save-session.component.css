@@ -67,8 +67,21 @@ svg.visual-checkbox.checked polyline {
     }
 }
 
-.page-footer > div {
+.page-footer > div.buttons {
     display: grid;
     grid-column-gap: 12px;
     grid-template-columns: auto auto 1fr;
+}
+.page-footer > div.save {
+    display: flex;
+    grid-column-gap: 12px;
+    align-items: center;
+}
+.page-footer > div.save :nth-child(1),
+.page-footer > div.save :nth-child(3),
+.page-footer > div.save :nth-child(4) {
+    width: auto;
+}
+.page-footer > div.save :nth-child(2) {
+    flex: 1;
 }

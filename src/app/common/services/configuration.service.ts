@@ -15,7 +15,8 @@ export class ConfigurationService {
   ) { }
 
   private keys = {
-    configuration: "configuration"
+    configuration: "configuration",
+    localSecret: "SmartLinkVault"
   }
 
   public onConfigurationUpdated = new EventEmitter<void>();
@@ -23,7 +24,7 @@ export class ConfigurationService {
   public getConfiguration() : Promise<ConfigurationModel> {
 
     return new Promise((resolve, reject) => {
-      this.chromeService.getStorageItem(this.keys.configuration)
+      this.chromeService.getStorageItem(this.keys.configuration, this.keys.localSecret)
         .then((configuration: ConfigurationModel) => {
           if (configuration == null)
             resolve(new ConfigurationModel(
@@ -37,11 +38,10 @@ export class ConfigurationService {
     });
 
   }
-
   public saveConfiguration(configuration: ConfigurationModel) : Promise<void> {
 
     return new Promise((resolve, reject) => {
-      this.chromeService.setStorageItem(this.keys.configuration, configuration)
+      this.chromeService.setStorageItem(this.keys.configuration, configuration, this.keys.localSecret)
         .then(() => {
           resolve();
           this.onConfigurationUpdated.emit();

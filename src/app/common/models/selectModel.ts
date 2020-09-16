@@ -1,10 +1,10 @@
 export class SelectModel {
 
-    public id: number;
+    public id: number | string;
     public title: string;
 
     constructor(
-        id: number,
+        id: number | string,
         title: string
     ) {
         this.id = id;

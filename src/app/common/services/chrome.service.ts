@@ -27,8 +27,7 @@ export class ChromeService {
 
   }
 
-  private localSecret = "SmartLinkVault";
-  getStorageItem(key: string) : Promise<object> {
+  getStorageItem(key: string, secret: string) : Promise<any> {
 
     return new Promise((resolve, reject) => {
       try
@@ -38,7 +37,7 @@ export class ChromeService {
             resolve(null);
           else 
           {
-            var decrypted = this.encryptingService.decryptObjectByKey(result[key], this.localSecret)
+            var decrypted = this.encryptingService.decryptObjectByKey(result[key], secret)
             resolve(decrypted);
           }
         });
@@ -48,12 +47,12 @@ export class ChromeService {
     });
 
   }
-  setStorageItem(key: string, obj: object) : Promise<void> {
+  setStorageItem(key: string, obj: any, secret: string) : Promise<void> {
 
     return new Promise((resolve, reject) => {
       try
       {
-        var encrypted = this.encryptingService.encryptObjectByKey(obj, this.localSecret);
+        var encrypted = this.encryptingService.encryptObjectByKey(obj, secret);
         chrome.storage.sync.set({ [key]: encrypted }, () => {
           resolve();
         });

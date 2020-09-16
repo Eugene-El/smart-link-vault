@@ -4,17 +4,14 @@
             
             <h1>Security settings</h1>
 
-            <mat-form-field>
-                <mat-label>Place to store data</mat-label>
-                <mat-select [(ngModel)]="page.configuration.securitySettings.dataStorage">
-                    <mat-option *ngFor="let dataStorage of dataSources.dataStorages" [value]="dataStorage.id">
-                        {{ dataStorage.title }}
-                    </mat-option>
-                </mat-select>
-                <mat-hint align="start" *ngIf="page.configuration.securitySettings.dataStorage == page.storeOnYourDeviceId">
-                    <strong>You should download storage to your PC</strong>
-                </mat-hint>
-            </mat-form-field>
+            <div>Place to store data</div>
+            <slv-select
+                [dataSource]="dataSources.dataStorages"
+                [(selectedId)]="page.configuration.securitySettings.dataStorage">
+            </slv-select>
+            <div *ngIf="page.configuration.securitySettings.dataStorage == page.storeOnYourDeviceId">
+                <strong>You should download storage to your PC</strong>
+            </div>
 
             <mat-form-field>
                 <mat-label>Secret</mat-label>
