@@ -17,16 +17,18 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { SlvSelectComponent } from './common/components/slv-select/slv-select.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SlvLoadingComponent } from './common/components/slv-loading/slv-loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IconPipe,
     SlvSelectComponent,
+    SlvLoadingComponent,
     MenuComponent,
     SaveSessionComponent,
     LoadSessionComponent,
-    ConfigurationsComponent
+    ConfigurationsComponent,
   ],
   imports: [
     BrowserModule,

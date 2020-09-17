@@ -3,6 +3,7 @@ import { SelectModel } from 'src/app/common/models/selectModel';
 import { DataStorage } from 'src/app/common/models/configuration/dataStorage.enum';
 import { ConfigurationModel } from 'src/app/common/models/configuration/configurationModel';
 import { ConfigurationService } from 'src/app/common/services/configuration.service';
+import { LoadingService } from 'src/app/common/services/loading.service';
 
 @Component({
   selector: 'slv-configurations',
@@ -12,6 +13,7 @@ import { ConfigurationService } from 'src/app/common/services/configuration.serv
 export class ConfigurationsComponent implements OnInit {
 
   constructor(
+    private loadingService: LoadingService,
     private configurationService: ConfigurationService
   ) { }
 
@@ -33,13 +35,14 @@ export class ConfigurationsComponent implements OnInit {
   methods = {
     getDataStorages: () => {
       this.dataSources.dataStorages = [
-        new SelectModel(DataStorage.ExtendsClass, "\"Extends Class\" storage"),
+        // Work in progress
+        //new SelectModel(DataStorage.ExtendsClass, "\"Extends Class\" storage"),
         new SelectModel(DataStorage.JsonStorage, "\"Json Storage\" storage"),
-        new SelectModel(DataStorage.OnDevice, "Store on your device"),
+        //new SelectModel(DataStorage.OnDevice, "Store on your device"),
       ];
     },
     getConfiguration: () => {
-      this.configurationService.getConfiguration()
+      this.loadingService.handlePromise(this.configurationService.getConfiguration())
         .then(configuration => {
           this.page.configuration = configuration;
         });

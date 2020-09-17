@@ -109,7 +109,9 @@ body, img, a {
 
 /* My material styles */
 input[text-material] {
+    width: calc(100% - 8px);
     height: 32px;
+    padding: 0 6px;
     background: transparent;
     border: 2px solid var(--cl-light-1);
     border-radius: 4px;
@@ -118,13 +120,15 @@ input[text-material] {
     font-family: "Human";
     font-weight: bold;
     font-size: 17px;
-
 }
 input[text-material]:hover,
 input[text-material]:focus {
     background-color: var(--cl-light-1-tr-04);
 }
-
+[label-material] {
+    margin: 10px 0 2px 0;
+    font-style: italic;
+}
 
 /* Fix material styles */
 .mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {

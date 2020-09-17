@@ -5,6 +5,7 @@ import { SelectModel } from 'src/app/common/models/selectModel';
 import { DataService } from 'src/app/common/services/data/data-service';
 import { DataSessionModel } from 'src/app/common/models/data/dataSessionModel';
 import { DataTabModel } from 'src/app/common/models/data/dataTabModel';
+import { LoadingService } from 'src/app/common/services/loading.service';
 
 @Component({
   selector: 'slv-save-session',
@@ -14,6 +15,7 @@ import { DataTabModel } from 'src/app/common/models/data/dataTabModel';
 export class SaveSessionComponent implements OnInit {
 
   constructor(
+    private loadingService: LoadingService,
     private chromeService: ChromeService,
     private dataService: DataService
   ) { }
@@ -37,10 +39,10 @@ export class SaveSessionComponent implements OnInit {
 
   methods = {
     getData: () => {
-      Promise.all([
+      this.loadingService.handlePromise(Promise.all([
         this.chromeService.getTabs(),
         this.dataService.getAll()
-      ]).then(([tabs, sessions]) => {
+      ])).then(([tabs, sessions]) => {
         this.dataSources.tabs = tabs.map(t => new SelectTabModel(true, t.id, t.title, t.url, t.iconUrl, t.pinned));
         this.dataSources.sessions = sessions.map(s => new SelectModel(s.id, s.name));
       });
@@ -68,7 +70,7 @@ export class SaveSessionComponent implements OnInit {
       }
 
       if (promise) {
-        promise.then(() => {
+        this.loadingService.handlePromise(promise).then(() => {
           this.methods.clear();
           this.methods.getData();
         })

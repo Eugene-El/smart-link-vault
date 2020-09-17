@@ -4,6 +4,7 @@
         </slv-menu>
     </div>
     <div>
-        <router-outlet></router-outlet>
+        <slv-loading *ngIf="page.isLoading"></slv-loading>
+        <router-outlet [hidden]="page.isLoading"></router-outlet>
     </div>
 </div>
