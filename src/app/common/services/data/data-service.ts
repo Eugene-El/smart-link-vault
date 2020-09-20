@@ -32,6 +32,9 @@ export class DataService implements IDataService {
     updateLastOpen(id: string): Promise<void> {
         return this.getService().then(service => service.updateLastOpen(id));
     }
+    updateIsFavorite(id: string, isFavorite: boolean): Promise<void> {
+        return this.getService().then(service => service.updateIsFavorite(id, isFavorite));
+    }
     addNew(session: DataSessionModel): Promise<void> {
         return this.getService().then(service => service.addNew(session));
     }

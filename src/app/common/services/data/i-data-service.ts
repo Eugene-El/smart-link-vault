@@ -4,6 +4,7 @@ export interface IDataService {
 
     getAll(): Promise<Array<DataSessionModel>>;
     updateLastOpen(id: string): Promise<void>;
+    updateIsFavorite(id: string, isFavorite: boolean): Promise<void>;
     addNew(session: DataSessionModel): Promise<void>;
     update(session: DataSessionModel): Promise<void>;
     delete(id: string): Promise<void>;

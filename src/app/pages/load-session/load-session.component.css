@@ -1,0 +1,55 @@
+.session-list {   
+    height: 100%;
+    overflow-y: auto;
+}
+.session-list .session {
+    padding: 12px;
+
+    display: grid;
+    grid-template-areas:
+        "name buttons"
+        "icons buttons";
+    grid-template-columns: 1fr auto;
+}
+.session-list .session:hover {
+    background-color: var(--cl-dark-2);
+}
+.session-list .session .name {
+    grid-area: name;
+
+    min-height: 24px;
+    margin-bottom: auto;
+    display: flex;
+    align-items: flex-end;
+}
+.session-list .session .icons {
+    grid-area: icons;
+
+    padding-top: 8px;
+    display: flex;
+    gap: 8px;
+}
+.session-list .session .buttons {
+    grid-area: buttons;
+    
+    display: flex;
+    gap: 6px;
+}
+.session-list .session .buttons > [mat-stroked-button] {
+    padding: 0 3px 3px 3px;
+    min-width: unset;
+    margin: auto 0;
+}
+
+.session-list .session .icons > div {
+    width: 16px;
+    height: 21px;
+
+    background-color: var(--cl-light-1-tr-2);
+    padding: 3px 4px 0px 4px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px var(--cl-light-1);
+}
+.session-list .session .icons > div > img {
+    border-radius: 5px;
+}

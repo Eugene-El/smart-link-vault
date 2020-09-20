@@ -306,7 +306,21 @@ export class JsonStorageDataService implements IDataService {
                 .then(secret => {
 
                   let sessions = encryptedData.map(d => this.encryptingService.decryptObjectByKey(d.value, secret))
-                    .reduce((a, b) => a.concat(b), []);
+                    .reduce((a, b) => a.concat(b), []) as Array<DataSessionModel>;
+
+                  sessions = sessions.sort((s1, s2) => {
+                    if (!s1.isFavorite && s2.isFavorite)
+                      return 1;
+                    else if (s1.isFavorite && !s2.isFavorite)
+                      return -1;
+                    
+                    if (s1.lastOpen > s2.lastOpen)
+                      return -1;
+                    else if (s1.lastOpen < s2.lastOpen)
+                      return 1;
+                    
+                    return 0;
+                  });
                 
                   resolve(sessions);
               })
@@ -324,6 +338,20 @@ export class JsonStorageDataService implements IDataService {
         let session = dataSessions.find(s => s.id == id);
         if (session != null) {
           session.lastOpen = new Date();
+          resolve(this.setDataSessions(dataSessions));
+        } else {
+          resolve();
+        }
+      })
+      .catch(error => reject(error));
+    });
+  }
+  public updateIsFavorite(id: string, isFavorite: boolean): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.getAll().then(dataSessions => {
+        let session = dataSessions.find(s => s.id == id);
+        if (session != null) {
+          session.isFavorite = isFavorite;
           resolve(this.setDataSessions(dataSessions));
         } else {
           resolve();
