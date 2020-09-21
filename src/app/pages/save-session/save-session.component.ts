@@ -6,6 +6,8 @@ import { DataService } from 'src/app/common/services/data/data-service';
 import { DataSessionModel } from 'src/app/common/models/data/dataSessionModel';
 import { DataTabModel } from 'src/app/common/models/data/dataTabModel';
 import { LoadingService } from 'src/app/common/services/loading.service';
+import { ChromeTabModel } from 'src/app/common/models/chrome/chromeTabModel';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'slv-save-session',
@@ -17,7 +19,8 @@ export class SaveSessionComponent implements OnInit {
   constructor(
     private loadingService: LoadingService,
     private chromeService: ChromeService,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -39,10 +42,20 @@ export class SaveSessionComponent implements OnInit {
 
   methods = {
     getData: () => {
+
+      let getTabs = this.chromeService.getTabs();
+      let checked = sessionStorage.getItem("checked");
+      getTabs.then((tabs) => {
+        if (tabs.length <= 1 && checked == null) {
+          this.router.navigate(['load']);
+        }
+        sessionStorage.setItem("checked", "true");
+      });
       this.loadingService.handlePromise(Promise.all([
-        this.chromeService.getTabs(),
+        getTabs,
         this.dataService.getAll()
-      ])).then(([tabs, sessions]) => {
+      ])).then(([tabs, sessions] : [Array<ChromeTabModel>, Array<DataSessionModel>]) => {
+
         this.dataSources.tabs = tabs.map(t => new SelectTabModel(true, t.id, t.title, t.url, t.iconUrl, t.pinned));
         this.dataSources.sessions = sessions.map(s => new SelectModel(s.id, s.name));
       });
@@ -71,8 +84,7 @@ export class SaveSessionComponent implements OnInit {
 
       if (promise) {
         this.loadingService.handlePromise(promise).then(() => {
-          this.methods.clear();
-          this.methods.getData();
+          this.router.navigate(['load']);
         })
       }
     },
