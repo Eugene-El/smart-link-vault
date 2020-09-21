@@ -24,6 +24,25 @@
             </div>
 
         </div>
+        <div>
+            <h1>Other</h1>
+
+            <button mat-stroked-button color="primary" *ngIf="!page.showClearMessage" (click)="page.showClearMessage = true">
+                <mat-icon>clear</mat-icon>
+                Clear storage
+            </button>
+            <div *ngIf="page.showClearMessage" class="clear-message-block">
+                <span>Are you sure to clear all storage data?</span>
+                <button mat-stroked-button color="primary" (click)="methods.clearStorage()">
+                    <mat-icon>done</mat-icon>
+                </button>
+                <button mat-stroked-button color="primary" (click)="page.showClearMessage = false">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </div>
+
+        </div>
+
     </div>
     <div class="page-footer">
         <div>

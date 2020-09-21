@@ -38,11 +38,17 @@ export class DataService implements IDataService {
     addNew(session: DataSessionModel): Promise<void> {
         return this.getService().then(service => service.addNew(session));
     }
+    addMany(sessions: Array<DataSessionModel>): Promise<void> {
+        return this.getService().then(service => service.addMany(sessions));
+    }
     update(session: DataSessionModel): Promise<void> {
         return this.getService().then(service => service.update(session));
     }
     delete(id: string): Promise<void> {
         return this.getService().then(service => service.delete(id));
+    }
+    clearStorage(): Promise<void> {
+        return this.getService().then(service => service.clearStorage());
     }
 
     

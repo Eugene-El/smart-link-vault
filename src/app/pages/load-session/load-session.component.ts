@@ -33,12 +33,10 @@ export class LoadSessionComponent implements OnInit {
         });
     },
     loadSession: (session: DataSessionModel) => {
-      this.loadingService.handlePromise(this.dataService.updateLastOpen(session.id))
-        .then(() => {
-          session.tabs.forEach(tab => {
-            this.chromeService.openTab(tab.url, tab.pinned);
-          })
-        });
+      this.loadingService.handlePromise(this.dataService.updateLastOpen(session.id)).then();
+      session.tabs.forEach(tab => {
+        this.chromeService.openTab(tab.url, tab.pinned);
+      });
     },
     setIsfavorite: (session: DataSessionModel) => {
       this.loadingService.handlePromise(this.dataService.updateIsFavorite(session.id, !session.isFavorite))

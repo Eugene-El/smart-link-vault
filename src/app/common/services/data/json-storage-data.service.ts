@@ -32,6 +32,8 @@ export class JsonStorageDataService implements IDataService {
 
   private service = {
     get: (externalId: string): Promise<EncryptedDataModel> => {
+      if (externalId == null)
+        return Promise.resolve(null);
       return this.httpClient.get<EncryptedDataModel>(this.keys.apiBaseUrl + externalId).toPromise()
     },
     getExternalId: (promise: Promise<any>): Promise<string> => {
@@ -255,7 +257,6 @@ export class JsonStorageDataService implements IDataService {
         this.getEncryptedEmpty()
       ]).then(([rootExternalId, encryptedDataArray, externalIds, empty]: [string, Array<EncryptedDataModel>, Array<string>, EncryptedDataModel]) => {
         
-
         if (externalIds == null)
           externalIds = [];
 
@@ -376,6 +377,25 @@ export class JsonStorageDataService implements IDataService {
       .catch(error => reject(error));
     });
   }
+  public addMany(sessions: Array<DataSessionModel>): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.getAll().then(dataSessions => {
+
+        sessions.forEach(session => {
+          let newSessionId = "";
+          do
+          {
+            newSessionId = this.randomValueService.generateUuid();
+          } while (dataSessions.some(s => s.id == newSessionId));
+          session.id = newSessionId;
+        });
+
+        sessions = [...dataSessions, ...sessions];
+        resolve(this.setDataSessions(sessions));
+      })
+      .catch(error => reject(error));
+    });
+  }
   public update(session: DataSessionModel): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.getAll().then(dataSessions => {
@@ -403,5 +423,7 @@ export class JsonStorageDataService implements IDataService {
       .catch(error => reject(error));
     });
   }
-
+  public clearStorage(): Promise<void> {
+    return this.setRootExternalId(null).then();
+  }
 }

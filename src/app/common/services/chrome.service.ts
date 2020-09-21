@@ -27,7 +27,7 @@ export class ChromeService {
 
   }
   openTab(url: string, pinned: boolean) {
-    chrome.tabs.create({ url: url, pinned: pinned });
+    chrome.tabs.create({ url: url, pinned: pinned, active: false });
   }
 
   getStorageItem(key: string, secret: string) : Promise<any> {
