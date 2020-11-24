@@ -8,6 +8,7 @@ import { DataTabModel } from 'src/app/common/models/data/dataTabModel';
 import { LoadingService } from 'src/app/common/services/loading.service';
 import { ChromeTabModel } from 'src/app/common/models/chrome/chromeTabModel';
 import { Router } from '@angular/router';
+import { SessionSelectModel } from 'src/app/common/models/session/sessionSelectModel';
 
 @Component({
   selector: 'slv-save-session',
@@ -37,7 +38,7 @@ export class SaveSessionComponent implements OnInit {
 
   dataSources = {
     tabs: new Array<SelectTabModel>(),
-    sessions: new Array<SelectModel>()
+    sessions: new Array<SessionSelectModel>()
   }
 
   methods = {
@@ -57,15 +58,16 @@ export class SaveSessionComponent implements OnInit {
       ])).then(([tabs, sessions] : [Array<ChromeTabModel>, Array<DataSessionModel>]) => {
 
         this.dataSources.tabs = tabs.map(t => new SelectTabModel(true, t.id, t.title, t.url, t.iconUrl, t.pinned));
-        this.dataSources.sessions = sessions.map(s => new SelectModel(s.id, s.name));
+        this.dataSources.sessions = sessions.map(s => new SessionSelectModel(s.id, s.name, s.isFavorite));
       });
     },
     save: () => {
+      
 
       let dataSessionModel = new DataSessionModel(null, null,
         this.dataSources.tabs.filter(t => t.selected)
         .map(t => new DataTabModel(t.url, t.pinned)),
-        this.dataSources.tabs.map(t => t.iconUrl).filter((v, i, a) => a.indexOf(v) === i).slice(0, 10),
+        this.dataSources.tabs.filter(t => t.selected).map(t => t.iconUrl).filter((v, i, a) => a.indexOf(v) === i).slice(0, 10),
         false, new Date());
       let promise = null as Promise<void>;
 
@@ -76,8 +78,10 @@ export class SaveSessionComponent implements OnInit {
 
       } else if (this.page.isUpdating && this.page.sessionId != "") {
         
+        const selectedSession = this.dataSources.sessions.find(s => s.id == this.page.sessionId);
         dataSessionModel.id = this.page.sessionId;
-        dataSessionModel.name = this.dataSources.sessions.find(s => s.id == this.page.sessionId).title;
+        dataSessionModel.name = selectedSession.title;
+        dataSessionModel.isFavorite = selectedSession.isFavorite;
         promise = this.dataService.update(dataSessionModel);
 
       }
