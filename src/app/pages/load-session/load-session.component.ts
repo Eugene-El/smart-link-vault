@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataSessionModel } from 'src/app/common/models/data/dataSessionModel';
+import { UniqIconUrlModel } from 'src/app/common/models/data/uniqIconUrlModel';
 import { ChromeService } from 'src/app/common/services/chrome.service';
 import { DataService } from 'src/app/common/services/data/data-service';
 import { LoadingService } from 'src/app/common/services/loading.service';
@@ -45,6 +46,9 @@ export class LoadSessionComponent implements OnInit {
     delete: (session: DataSessionModel) => {
       this.loadingService.handlePromise(this.dataService.delete(session.id))
         .then(() => this.methods.getData());
+    },
+    isObject: (obj: string | UniqIconUrlModel) => {
+      return obj && typeof obj != "string";
     }
   }
 

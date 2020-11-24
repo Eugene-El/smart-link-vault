@@ -9,6 +9,7 @@ import { LoadingService } from 'src/app/common/services/loading.service';
 import { ChromeTabModel } from 'src/app/common/models/chrome/chromeTabModel';
 import { Router } from '@angular/router';
 import { SessionSelectModel } from 'src/app/common/models/session/sessionSelectModel';
+import { UniqIconUrlModel } from 'src/app/common/models/data/uniqIconUrlModel';
 
 @Component({
   selector: 'slv-save-session',
@@ -67,7 +68,7 @@ export class SaveSessionComponent implements OnInit {
       let dataSessionModel = new DataSessionModel(null, null,
         this.dataSources.tabs.filter(t => t.selected)
         .map(t => new DataTabModel(t.url, t.pinned)),
-        this.dataSources.tabs.filter(t => t.selected).map(t => t.iconUrl).filter((v, i, a) => a.indexOf(v) === i).slice(0, 10),
+        this.methods.calculateUniqUrls(),
         false, new Date());
       let promise = null as Promise<void>;
 
@@ -91,6 +92,20 @@ export class SaveSessionComponent implements OnInit {
           this.router.navigate(['load']);
         })
       }
+    },
+    calculateUniqUrls: (): Array<UniqIconUrlModel> => {
+      let uniqUrls = new Array<UniqIconUrlModel>();
+      
+      this.dataSources.tabs.filter(t => t.selected)
+        .map(t => t.iconUrl).forEach(iconUrl => {
+          let uniqUrl = uniqUrls.find(uu => uu.url == iconUrl);
+          if (uniqUrl)
+            uniqUrl.count++;
+          else
+            uniqUrls.push(new UniqIconUrlModel(iconUrl, 1));
+      });
+
+      return uniqUrls.slice(0, 10);
     },
     clear: () => {
       this.page.isSaving = false;
