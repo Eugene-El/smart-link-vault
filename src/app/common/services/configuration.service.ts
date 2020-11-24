@@ -3,6 +3,7 @@ import { ConfigurationModel } from '../models/configuration/configurationModel';
 import { ChromeService } from './chrome.service';
 import { SecuritySettingsModel } from '../models/configuration/securitySettingsModel';
 import { RandomValueService } from './random-value.service';
+import { DataStorage } from '../models/configuration/dataStorage.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class ConfigurationService {
         .then((configuration: ConfigurationModel) => {
           if (configuration == null)
             resolve(new ConfigurationModel(
-              new SecuritySettingsModel(null, this.randomValueService.generateSecret())
+              new SecuritySettingsModel(DataStorage.JsonStorage, this.randomValueService.generateSecret())
             ));
 
           resolve(configuration);
