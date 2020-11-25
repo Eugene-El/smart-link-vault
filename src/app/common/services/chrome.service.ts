@@ -26,8 +26,20 @@ export class ChromeService {
     });
 
   }
-  openTab(url: string, pinned: boolean) {
-    chrome.tabs.create({ url: url, pinned: pinned, active: false });
+  changeCurrentIfDefaultTab(url: string, pinned: boolean): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+        chrome.tabs.query({currentWindow: true, active: true}, function (tab) {
+          if (tab[0] && tab[0].url == "chrome://newtab/") {
+            chrome.tabs.update(tab[0].id, { url: url, pinned: pinned});
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+    });
+  }
+  openTab(url: string, pinned: boolean, active: boolean = false) {
+    chrome.tabs.create({ url: url, pinned: pinned, active: active });
   }
 
   getStorageItem(key: string, secret: string) : Promise<any> {

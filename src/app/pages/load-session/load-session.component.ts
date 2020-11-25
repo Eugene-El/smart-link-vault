@@ -34,10 +34,21 @@ export class LoadSessionComponent implements OnInit {
         });
     },
     loadSession: (session: DataSessionModel) => {
-      this.loadingService.handlePromise(this.dataService.updateLastOpen(session.id)).then();
-      session.tabs.forEach(tab => {
-        this.chromeService.openTab(tab.url, tab.pinned);
-      });
+      this.loadingService.handlePromise(this.dataService.updateLastOpen(session.id)).then(() => this.methods.getData());
+      let firstTab = session.tabs.shift();
+      let lastTab = session.tabs.pop();
+
+      if (firstTab)
+        this.chromeService.changeCurrentIfDefaultTab(firstTab.url, firstTab.pinned)
+          .then(success => {
+            if (!success)
+              this.chromeService.openTab(firstTab.url, firstTab.pinned);
+            session.tabs.forEach(tab => {
+              this.chromeService.openTab(tab.url, tab.pinned);
+            });
+            if (lastTab)
+              this.chromeService.openTab(lastTab.url, lastTab.pinned, true);
+          })
     },
     setIsfavorite: (session: DataSessionModel) => {
       this.loadingService.handlePromise(this.dataService.updateIsFavorite(session.id, !session.isFavorite))

@@ -63,8 +63,6 @@ export class SaveSessionComponent implements OnInit {
       });
     },
     save: () => {
-      
-
       let dataSessionModel = new DataSessionModel(null, null,
         this.dataSources.tabs.filter(t => t.selected)
         .map(t => new DataTabModel(t.url, t.pinned)),
