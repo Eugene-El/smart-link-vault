@@ -8,8 +8,9 @@
         <div class="icons">
             <div *ngFor="let tabIcon of session.uniqIconUrls">
                 <ng-container *ngIf="methods.isObject(tabIcon); else elseImg">
-                    <div [ngClass]="{ 'number-label': tabIcon.count > 1 }" [attr.tab-count]="tabIcon.count" >
-                        <img [src]="tabIcon?.url | icon" width="16" height="16"/>
+                    <img [src]="tabIcon?.url | icon" width="16" height="16"/>
+                    <div class="number-label" *ngIf="tabIcon.count > 1">
+                        <div>{{ tabIcon.count }}</div>
                     </div>
                 </ng-container>
                 <ng-template #elseImg>

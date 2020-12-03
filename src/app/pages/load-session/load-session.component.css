@@ -25,7 +25,7 @@
 .session-list .session .icons {
     grid-area: icons;
 
-    padding-top: 8px;
+    padding: 6px 0;
     display: flex;
     gap: 8px;
 }
@@ -54,18 +54,21 @@
     border-radius: 5px;
 }
 
-.number-label:before {
-    display: block;
-    position: absolute;
-    min-width: 1.2em;
-    content: attr(tab-count);
-    transform: translate(1.6em, 1.8em);
+.number-label {
+    width: 0;
+    height: 0;
+    right: -0.75em;
+    bottom: 0.6em;
+    position: relative;
+}
+.number-label > div {
+    min-width: 1em;
     font-weight: bold;
-    text-align: center;
     border: 1px solid transparent;
     background-color: var(--cl-light-1);
     color: var(--cl-dark-1);;
     border-radius: 50%;
     font-size: 0.5em;
     text-align: center;
+    display: inline-block;
 }
