@@ -1,55 +1,14 @@
 <div class="page-content">
     <div class="configuration-content">
-        <div *ngIf="page.configuration != null">
-            
-            <h1>Security settings</h1>
-
-            <div label-material>Place to store data:</div>
-            <slv-select
-                [dataSource]="dataSources.dataStorages"
-                [(selectedId)]="page.configuration.securitySettings.dataStorage">
-            </slv-select>
-            <div *ngIf="page.configuration.securitySettings.dataStorage == page.storeOnYourDeviceId">
-                <strong>You should download storage to your PC</strong>
+        
+        <div class="bottom-block">
+            <div>
+                Smart link vault 1.5
             </div>
-
-            
-            <div label-material>Secret:</div>
-            <div class="password-wrapper">
-                <input text-material [type]="page.hideSecret ? 'password' : 'text'"
-                    spellcheck="false" [(ngModel)]="page.configuration.securitySettings.secret">
-                <button mat-icon-button matSuffix (click)="page.hideSecret = !page.hideSecret" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="page.hideSecret">
-                    <mat-icon>{{page.hideSecret ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
+            <div>
+                Created by <a href="mailto:lomashonok@inbox.lv">Eugene Lomashonok</a>
             </div>
-
-        </div>
-        <div>
-            <h1>Other</h1>
-
-            <button mat-stroked-button color="primary" *ngIf="!page.showClearMessage" (click)="page.showClearMessage = true">
-                <mat-icon>clear</mat-icon>
-                Clear storage
-            </button>
-            <div *ngIf="page.showClearMessage" class="clear-message-block">
-                <span>Are you sure to clear all storage data?</span>
-                <button mat-stroked-button color="primary" (click)="methods.clearStorage()">
-                    <mat-icon>done</mat-icon>
-                </button>
-                <button mat-stroked-button color="primary" (click)="page.showClearMessage = false">
-                    <mat-icon>clear</mat-icon>
-                </button>
-            </div>
-
         </div>
 
-    </div>
-    <div class="page-footer">
-        <div>
-            <button mat-stroked-button color="primary" (click)="methods.saveConfiguration()">
-                <mat-icon>save</mat-icon>
-                Save
-            </button>
-        </div>
     </div>
 </div>
