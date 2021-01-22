@@ -1,34 +1,39 @@
 <div class="session-list">
 
-    <div *ngFor="let session of dataSources.sessions" class="session">
-        <div class="name">
-            <mat-icon *ngIf="session.isFavorite">star_rate</mat-icon>
-            <span>{{ session.name }}</span>
-        </div>
-        <div class="icons">
-            <div *ngFor="let tabIcon of session.uniqIconUrls">
-                <ng-container *ngIf="methods.isObject(tabIcon); else elseImg">
-                    <img [src]="tabIcon?.url | icon" width="16" height="16"/>
-                    <div class="number-label" *ngIf="tabIcon.count > 1">
-                        <div>{{ tabIcon.count }}</div>
-                    </div>
-                </ng-container>
-                <ng-template #elseImg>
-                    <img [src]="tabIcon | icon" width="16" height="16" />
-                </ng-template>
+    <div *ngIf="!dataSources.sessions || dataSources.sessions.length <= 0" class="info">
+        You don't have sessions yet
+    </div>
+    <div *ngIf="dataSources.sessions && dataSources.sessions.length > 0">
+        <div *ngFor="let session of dataSources.sessions" class="session">
+            <div class="name">
+                <mat-icon *ngIf="session.isFavorite">star_rate</mat-icon>
+                <span>{{ session.name }}</span>
             </div>
-        </div>
-        <div class="buttons">
-            <button mat-stroked-button color="primary" (click)="methods.loadSession(session)">
-                <mat-icon>open_in_browser</mat-icon>
-            </button>
-            <button mat-stroked-button color="primary" (click)="methods.setIsfavorite(session)">
-                <mat-icon *ngIf="!session.isFavorite">star</mat-icon>
-                <mat-icon *ngIf="session.isFavorite">star_border</mat-icon>
-            </button>
-            <button mat-stroked-button color="primary" (click)="methods.delete(session)">
-                <mat-icon>delete</mat-icon>
-            </button>
+            <div class="icons">
+                <div *ngFor="let tabIcon of session.uniqIconUrls">
+                    <ng-container *ngIf="methods.isObject(tabIcon); else elseImg">
+                        <img [src]="tabIcon?.url | icon" width="16" height="16"/>
+                        <div class="number-label" *ngIf="tabIcon.count > 1">
+                            <div>{{ tabIcon.count }}</div>
+                        </div>
+                    </ng-container>
+                    <ng-template #elseImg>
+                        <img [src]="tabIcon | icon" width="16" height="16" />
+                    </ng-template>
+                </div>
+            </div>
+            <div class="buttons">
+                <button mat-stroked-button color="primary" (click)="methods.loadSession(session)">
+                    <mat-icon>open_in_browser</mat-icon>
+                </button>
+                <button mat-stroked-button color="primary" (click)="methods.setIsfavorite(session)">
+                    <mat-icon *ngIf="!session.isFavorite">star</mat-icon>
+                    <mat-icon *ngIf="session.isFavorite">star_border</mat-icon>
+                </button>
+                <button mat-stroked-button color="primary" (click)="methods.delete(session)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
         </div>
     </div>
 

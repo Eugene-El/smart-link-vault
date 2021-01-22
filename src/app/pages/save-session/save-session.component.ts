@@ -62,6 +62,12 @@ export class SaveSessionComponent implements OnInit {
         this.dataSources.sessions = sessions.map(s => new SessionSelectModel(s.id, s.name, s.isFavorite));
       });
     },
+    onSaveClick: () => {
+      this.page.isSaving = true;
+      setTimeout(() => {
+        document.getElementById("sessionName")?.focus();
+      })
+    },
     save: () => {
       let dataSessionModel = new DataSessionModel(null, null,
         this.dataSources.tabs.filter(t => t.selected)

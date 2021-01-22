@@ -20,7 +20,7 @@
   </div>
   <div class="page-footer">
     <div class="buttons" *ngIf="!page.isSaving && !page.isUpdating">
-      <button mat-stroked-button color="primary" (click)="page.isSaving = true">
+      <button mat-stroked-button color="primary" (click)="methods.onSaveClick()">
         <mat-icon>save</mat-icon>
         Save new
       </button>
@@ -32,8 +32,8 @@
     </div>
     <div class="save" *ngIf="page.isSaving || page.isUpdating">
       <span>Name:</span>
-      <input *ngIf="page.isSaving" text-material spellcheck="false"
-        [(ngModel)]="page.sessionName">
+      <input id="sessionName" *ngIf="page.isSaving" text-material spellcheck="false"
+        autocomplete="off" [(ngModel)]="page.sessionName">
       <slv-select *ngIf="page.isUpdating"
         [dataSource]="dataSources.sessions"
         [(selectedId)]="page.sessionId">
