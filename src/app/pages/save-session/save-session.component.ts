@@ -97,7 +97,6 @@ export class SaveSessionComponent implements OnInit {
       this.dataSources.tabs.filter(t => t.selected)
         .map(t => ({ url: t.iconUrl, hostname: t.iconUrl ? new URL(t.iconUrl).hostname : null })).forEach(iconUrl => {
           let uniqUrl = uniqUrls.find(uu => uu.url == iconUrl.url || uu.hostname == iconUrl.hostname);
-          console.log(iconUrl, uniqUrl);
           if (uniqUrl)
             uniqUrl.count++;
           else
