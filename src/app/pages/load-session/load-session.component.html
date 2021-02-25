@@ -11,15 +11,12 @@
             </div>
             <div class="icons">
                 <div *ngFor="let tabIcon of session.uniqIconUrls">
-                    <ng-container *ngIf="methods.isObject(tabIcon); else elseImg">
+                    <ng-container>
                         <img [src]="tabIcon?.url | icon" width="16" height="16"/>
-                        <div class="number-label" *ngIf="tabIcon.count > 1">
-                            <div>{{ tabIcon.count }}</div>
+                        <div class="number-label" *ngIf="tabIcon.tabs.length > 1">
+                            <div>{{ tabIcon.tabs.length }}</div>
                         </div>
                     </ng-container>
-                    <ng-template #elseImg>
-                        <img [src]="tabIcon | icon" width="16" height="16" />
-                    </ng-template>
                 </div>
             </div>
             <div class="buttons">

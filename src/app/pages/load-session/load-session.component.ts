@@ -35,20 +35,28 @@ export class LoadSessionComponent implements OnInit {
     },
     loadSession: (session: DataSessionModel) => {
       this.loadingService.handlePromise(this.dataService.updateLastOpen(session.id)).then(() => this.methods.getData());
-      let firstTab = session.tabs.shift();
-      let lastTab = session.tabs.pop();
+      const tabs = session.uniqIconUrls.map(u => u.tabs).reduce((t1, t2) => t1.concat(t2)).sort((t1, t2) => {
+        if (t1.index < t2.index)
+          return -1;
+        if (t1.index > t2.index)
+          return 1;
+        return 0;
+      });
+      
+      const firstTab = tabs.shift();
+      const lastTab = tabs.pop();
 
       if (firstTab)
         this.chromeService.changeCurrentIfDefaultTab(firstTab.url, firstTab.pinned)
           .then(success => {
             if (!success)
               this.chromeService.openTab(firstTab.url, firstTab.pinned);
-            session.tabs.forEach(tab => {
+            tabs.forEach(tab => {
               this.chromeService.openTab(tab.url, tab.pinned);
             });
             if (lastTab)
               this.chromeService.openTab(lastTab.url, lastTab.pinned, true);
-          })
+          });
     },
     setIsfavorite: (session: DataSessionModel) => {
       this.loadingService.handlePromise(this.dataService.updateIsFavorite(session.id, !session.isFavorite))

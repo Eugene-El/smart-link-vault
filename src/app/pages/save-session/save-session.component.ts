@@ -70,10 +70,7 @@ export class SaveSessionComponent implements OnInit {
     },
     save: () => {
       let dataSessionModel = new DataSessionModel(null, null,
-        this.dataSources.tabs.filter(t => t.selected)
-        .map(t => new DataTabModel(t.url, t.pinned)),
-        this.methods.calculateUniqUrls(),
-        false, new Date());
+        this.methods.calculateUniqUrls(), false, new Date());
       let promise = null as Promise<void>;
 
       if (this.page.isSaving && this.page.sessionName != "") {
@@ -98,18 +95,25 @@ export class SaveSessionComponent implements OnInit {
       }
     },
     calculateUniqUrls: (): Array<UniqIconUrlModel> => {
-      let uniqUrls = [];
+      let uniqUrls = new Array<UniqIconUrlModel>();
       
-      this.dataSources.tabs.filter(t => t.selected)
-        .map(t => ({ url: t.iconUrl, hostname: t.iconUrl ? new URL(t.iconUrl).hostname : null })).forEach(iconUrl => {
-          let uniqUrl = uniqUrls.find(uu => uu.url == iconUrl.url || uu.hostname == iconUrl.hostname);
-          if (uniqUrl)
-            uniqUrl.count++;
-          else
-            uniqUrls.push({ url: iconUrl.url, hostname: iconUrl.hostname, count: 1 });
-      });
+      let index = 0;
+      this.dataSources.tabs.filter(t => t.selected).forEach(tab => {
+          let uniqUrl = uniqUrls.find(uu => uu.url == tab.iconUrl
+            || uu.tabs.some(t => this.methods.getHostName(t.url) == this.methods.getHostName(tab.iconUrl)));
 
-      return uniqUrls.map(uu => new UniqIconUrlModel(uu.url, uu.count)).slice(0, 10);
+          const datatabModel = new DataTabModel(index, tab.url, tab.pinned);
+          if (uniqUrl)
+            uniqUrl.tabs.push(datatabModel);
+          else
+            uniqUrls.push(new UniqIconUrlModel(tab.iconUrl, [datatabModel]));
+          index++;
+        });
+
+      return uniqUrls;
+    },
+    getHostName: (url: string): string => {
+      return url ? new URL(url).hostname : null;
     },
     clear: () => {
       this.page.isSaving = false;
