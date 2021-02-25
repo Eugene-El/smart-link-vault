@@ -5,6 +5,7 @@ import { ConfigurationModel } from 'src/app/common/models/configuration/configur
 import { ConfigurationService } from 'src/app/common/services/configuration.service';
 import { LoadingService } from 'src/app/common/services/loading.service';
 import { DataService } from 'src/app/common/services/data/data-service';
+import { DataSessionModel } from 'src/app/common/models/data/dataSessionModel';
 
 @Component({
   selector: 'slv-configurations',
@@ -80,6 +81,34 @@ export class ConfigurationsComponent implements OnInit {
           this.page.showClearMessage = false;
           this.methods.getConfiguration();
         })
+    },
+    backupAllData: () => {
+      this.loadingService.handlePromise(this.dataService.getAll())
+        .then((allData: DataSessionModel[]) => {
+          let html = "<html><head></head><body style='display: flex; flex-direction: column;'>";
+
+          html += "<style>button { margin: 10px; padding: 10px; background-color: #006c72; color: white; outline: none; border: none; cursor: pointer; font-weight: bold; }</style>";
+          html += "<script>function openLinks(links) { links.forEach(function (link) { window.open(link, '_blank'); }) }</script>"
+
+          allData.forEach(dat => {
+            const tabs = dat.tabs.map(t => `'${t.url}'`).join();
+            html += `<button onClick="openLinks([${tabs}])">Open "${dat.name}" session</button>`;
+          })
+
+          html += "</body></html>";
+
+          console.log("HTML:", html);
+          this.methods.downloadFile("SmartLinkVaultBackup.html", html);
+        });
+    },
+    downloadFile: (filename: string, text: string) => {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
     }
   }
 
