@@ -62,6 +62,15 @@ export class SaveSessionComponent implements OnInit {
         this.dataSources.sessions = sessions.map(s => new SessionSelectModel(s.id, s.name, s.isFavorite));
       });
     },
+    areAllTablsSelected: (): boolean => {
+      return this.dataSources.tabs.every(t => t.selected);
+    },
+    selectAll: () => {
+      if (this.methods.areAllTablsSelected())
+        this.dataSources.tabs.forEach(t => t.selected = false);
+      else
+        this.dataSources.tabs.forEach(t => t.selected = true);
+    },
     onSaveClick: () => {
       this.page.isSaving = true;
       setTimeout(() => {

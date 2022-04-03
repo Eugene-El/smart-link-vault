@@ -18,11 +18,10 @@ export class DataService implements IDataService {
         sessions: "Sessions"
     }
 
-    private openDB() : Promise<IDBDatabase>
-    {
+    private openDB() : Promise<IDBDatabase> {
         return new Promise<IDBDatabase>((resolve, reject) => {
             let request = indexedDB.open(this.database.name, this.database.version);
-            request.onerror = function(err){
+            request.onerror = function(err) {
                 reject(err);
             };
             request.onsuccess = () => {
@@ -33,19 +32,21 @@ export class DataService implements IDataService {
                 resolve(database);
             }
             request.onupgradeneeded = (e) => {
+                console.log("onupgradeneeded");
                 let database = (e.target as any)?.result as IDBDatabase;
                 if (database == null)
                     reject("Can't create IndexDB");
                 this.populateDB(database);
-                resolve(database);
+                console.log("resolve");
+                const transaction = (e.target as any).transaction;
+                transaction.oncomplete = () => {
+                    resolve(database);
+                } 
             }
         });
     }
-    private populateDB(database: IDBDatabase): void
-    {
-        if (database == null)
-            return;
-        if (!database.objectStoreNames.contains(this.database.sessions))
+    private populateDB(database: IDBDatabase): void {
+        if (database && !database.objectStoreNames.contains(this.database.sessions))
             database.createObjectStore(this.database.sessions, { keyPath: "id", autoIncrement: false });
     }
 
