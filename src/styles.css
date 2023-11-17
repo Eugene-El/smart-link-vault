@@ -7,6 +7,16 @@
     --cl-light-1-tr-04: rgba(0, 173, 181, 0.04);
     --cl-light-2: #006c72;
     --cl-light-gr-1: linear-gradient(90deg, rgba(0,173,181,1) 0%, rgba(0,173,181,1) 70%, rgba(0,173,181,0.14655172413793105) 100%);
+
+    --cl-g-grey: #5F6368;
+    --cl-g-blue: #1A73E8;
+    --cl-g-red: #D93025;
+    --cl-g-yellow: #F9AB00;
+    --cl-g-green: #188038;
+    --cl-g-pink: #D01884;
+    --cl-g-purple: #A142F4;
+    --cl-g-cyan: #007B83;
+    --cl-g-orange: #FA903E;
 }
 
 @font-face {

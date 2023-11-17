@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ChromeService } from 'src/app/common/services/chrome.service';
 import { SelectTabModel } from 'src/app/common/models/session/selectTabModel';
-import { SelectModel } from 'src/app/common/models/selectModel';
 import { DataService } from 'src/app/common/services/data/data-service';
 import { DataSessionModel } from 'src/app/common/models/data/dataSessionModel';
 import { DataTabModel } from 'src/app/common/models/data/dataTabModel';
 import { LoadingService } from 'src/app/common/services/loading.service';
 import { ChromeTabModel } from 'src/app/common/models/chrome/chromeTabModel';
-import { Router, UrlTree } from '@angular/router';
+import { Router } from '@angular/router';
 import { SessionSelectModel } from 'src/app/common/models/session/sessionSelectModel';
 import { UniqIconUrlModel } from 'src/app/common/models/data/uniqIconUrlModel';
+import { SelectGroupModel } from 'src/app/common/models/session/selectGroupsModel';
 
 @Component({
-  selector: 'slv-save-session',
   templateUrl: './save-session.component.html',
   styleUrls: ['./save-session.component.css']
 })
@@ -32,13 +31,12 @@ export class SaveSessionComponent implements OnInit {
   page = {
     isSaving: false as boolean,
     isUpdating: false as boolean,
-
     sessionName: "" as string,
     sessionId: "" as string
   }
 
   dataSources = {
-    tabs: new Array<SelectTabModel>(),
+    groups: new Array<SelectGroupModel>(),
     sessions: new Array<SessionSelectModel>()
   }
 
@@ -46,6 +44,7 @@ export class SaveSessionComponent implements OnInit {
     getData: () => {
 
       let getTabs = this.chromeService.getTabs();
+      let getGroups = this.chromeService.getGroups();
       let checked = sessionStorage.getItem("checked");
       getTabs.then((tabs) => {
         if (tabs.length <= 1 && checked == null) {
@@ -55,21 +54,31 @@ export class SaveSessionComponent implements OnInit {
       });
       this.loadingService.handlePromise(Promise.all([
         getTabs,
+        getGroups,
         this.dataService.getAll()
-      ])).then(([tabs, sessions] : [Array<ChromeTabModel>, Array<DataSessionModel>]) => {
-
-        this.dataSources.tabs = tabs.map(t => new SelectTabModel(true, t.id, t.title, t.url, t.iconUrl, t.pinned));
+      ])).then(([tabs, groups, sessions]) => {
+        this.dataSources.groups = [
+          new SelectGroupModel("Pinned", "none", tabs.filter(t => t.pinned).map(this.methods.mapTab)),
+          ...groups.map(g => new SelectGroupModel(g.title, g.color, tabs.filter(t => t.groupId == g.id).map(this.methods.mapTab)))
+            .sort((g1, g2) => g1.minTabindex - g2.minTabindex),
+          new SelectGroupModel("Tabs", "none", tabs.filter(t => !t.pinned && t.groupId === -1).map(this.methods.mapTab))
+        ].filter(g => g.tabs.length > 0);
         this.dataSources.sessions = sessions.map(s => new SessionSelectModel(s.id, s.name, s.isFavorite));
       });
     },
+    mapTab: (tab: ChromeTabModel): SelectTabModel => {
+      return new SelectTabModel(true, tab.id, tab.index, tab.title, tab.url, tab.iconUrl, tab.pinned);
+    },
     areAllTablsSelected: (): boolean => {
-      return this.dataSources.tabs.every(t => t.selected);
+      return this.dataSources.groups.every(g => g.tabs.every(t => t.selected));
     },
     selectAll: () => {
-      if (this.methods.areAllTablsSelected())
-        this.dataSources.tabs.forEach(t => t.selected = false);
-      else
-        this.dataSources.tabs.forEach(t => t.selected = true);
+      const selectAll = !this.methods.areAllTablsSelected();
+      this.dataSources.groups.forEach(g => g.tabs.forEach(t => t.selected = selectAll));
+    },
+    selectGroup: (group: SelectGroupModel) => {
+      const selectAll = !group.allSelected;
+      group.tabs.forEach(t => t.selected = selectAll);
     },
     onSaveClick: () => {
       this.page.isSaving = true;
@@ -107,17 +116,19 @@ export class SaveSessionComponent implements OnInit {
       let uniqUrls = new Array<UniqIconUrlModel>();
       
       let index = 0;
-      this.dataSources.tabs.filter(t => t.selected).forEach(tab => {
-          let uniqUrl = uniqUrls.find(uu => uu.url == tab.iconUrl
-            || uu.tabs.some(t => this.methods.getHostName(t.url) == this.methods.getHostName(tab.iconUrl)));
+      const tabs = [];
+      this.dataSources.groups.forEach(g => g.tabs.filter(t => t.selected).forEach(t => tabs.push(t)));
+      tabs.forEach(tab => {
+        let uniqUrl = uniqUrls.find(uu => uu.url == tab.iconUrl
+          || uu.tabs.some(t => this.methods.getHostName(t.url) == this.methods.getHostName(tab.iconUrl)));
 
-          const datatabModel = new DataTabModel(index, tab.url, tab.pinned);
-          if (uniqUrl)
-            uniqUrl.tabs.push(datatabModel);
-          else
-            uniqUrls.push(new UniqIconUrlModel(tab.iconUrl, [datatabModel]));
-          index++;
-        });
+        const datatabModel = new DataTabModel(index, tab.url, tab.pinned);
+        if (uniqUrl)
+          uniqUrl.tabs.push(datatabModel);
+        else
+          uniqUrls.push(new UniqIconUrlModel(tab.iconUrl, [datatabModel]));
+        index++;
+      });
 
       return uniqUrls;
     },

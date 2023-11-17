@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ChromeTabModel } from '../models/chrome/chromeTabModel';
 import { EncryptingService } from './encrypting.service';
+import { ChromeGroupModel } from '../models/chrome/chromGroupModel';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +12,30 @@ export class ChromeService {
     private encryptingService: EncryptingService
   ) { }
 
-  getTabs() : Promise<Array<ChromeTabModel>> {
-
-    return new Promise((resolve, reject) => {
+  getTabs(): Promise<Array<ChromeTabModel>> {
+    return new Promise((resolve) => {
       chrome.tabs.query({
         windowId: chrome.windows.WINDOW_ID_CURRENT
       }, (tabs: Array<any>) => {
         if (tabs == null || tabs.length == 0) {
           resolve(new Array<ChromeTabModel>());
         } else {
-          resolve(tabs.map(t => new ChromeTabModel(t.id, t.title, t.url, t.favIconUrl, t.pinned)));
+          resolve(tabs.map(t => new ChromeTabModel(t.id, t.index, t.title, t.url, t.favIconUrl, t.pinned, t.groupId)));
         }
       });
     });
-
   }
+
+  getGroups(): Promise<Array<ChromeGroupModel>> {
+    return new Promise((resolve) => {
+      chrome.tabGroups.query({
+        windowId: chrome.windows.WINDOW_ID_CURRENT
+      }, (tabGroups) => {
+        resolve(tabGroups.map(g => new ChromeGroupModel(g.id, g.title, g.color))); 
+      })
+    });
+  }
+
   changeCurrentIfDefaultTab(url: string, pinned: boolean): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
         chrome.tabs.query({currentWindow: true, active: true}, function (tab) {

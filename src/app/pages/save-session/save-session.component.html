@@ -1,56 +1,50 @@
 <div class="page-content">
     <div class="tab-list">
         <div class="tab select-all" (click)="methods.selectAll()">
-            <div>
-                <svg class="visual-checkbox" viewBox="0 0 22 22" [ngClass]="{ 'checked': methods.areAllTablsSelected() }">
-                  <rect x="1" y="1" width="20" height="20" rx="4" ry="4"></rect>
-                  <polyline points="3,14 10,18 18,3"></polyline>
-                </svg>
+            <div class="checkbox-container">
+                <slv-checkbox [value]="methods.areAllTablsSelected()"></slv-checkbox>
             </div>
-            <div class="select-all-lbl">
+            <div>
                 Select all
             </div>
         </div>
-        <div *ngFor="let tab of dataSources.tabs" class="tab" (click)="tab.selected = !tab.selected">
-            <div>
-                <svg class="visual-checkbox" viewBox="0 0 22 22" [ngClass]="{ 'checked': tab.selected }">
-          <rect x="1" y="1" width="20" height="20" rx="4" ry="4"></rect>
-          <polyline points="3,14 10,18 18,3"></polyline>
-        </svg>
-            </div>
-            <div>
-                <div class="icon-box">
-                    <img [src]="tab.iconUrl | icon" width="16" height="16" />
+        
+        <div *ngFor="let group of dataSources.groups" class="group">
+            <div class="tab select-group" (click)="methods.selectGroup(group)">
+                <div class="checkbox-container">
+                    <slv-checkbox [value]="group.allSelected"></slv-checkbox>
+                </div>
+                <div *ngIf="group.color != 'none'" class="group-color" [style.backgroundColor]="'var(--cl-g-' + group.color + ')'"></div>
+                <div>
+                    {{ group.title }}
                 </div>
             </div>
-            <div>
-                {{ tab.title }}
+            <div *ngFor="let tab of group.tabs" class="tab" (click)="tab.selected = !tab.selected">
+                <div class="checkbox-container">
+                    <slv-checkbox [value]="tab.selected"></slv-checkbox>
+                </div>
+                <div>
+                    <div class="icon-box">
+                        <img [src]="tab.iconUrl | icon" width="16" height="16" />
+                    </div>
+                </div>
+                <div>
+                    {{ tab.title }}
+                </div>
             </div>
         </div>
     </div>
     <div class="page-footer">
         <div class="buttons" *ngIf="!page.isSaving && !page.isUpdating">
-            <button mat-stroked-button color="primary" (click)="methods.onSaveClick()">
-        <mat-icon>save</mat-icon>
-        Save new
-      </button>
-            <button mat-stroked-button color="primary" (click)="page.isUpdating = true">
-        <mat-icon>update</mat-icon>
-        Update existing
-      </button>
-
+            <slv-button icon="save" (click)="methods.onSaveClick()">Save new</slv-button>
+            <slv-button icon="update" (click)="page.isUpdating = true">Update existing</slv-button>
         </div>
         <div class="save" *ngIf="page.isSaving || page.isUpdating">
             <span>Name:</span>
             <input id="sessionName" *ngIf="page.isSaving" text-material spellcheck="false" autocomplete="off" [(ngModel)]="page.sessionName">
-            <slv-select *ngIf="page.isUpdating" [dataSource]="dataSources.sessions" [(selectedId)]="page.sessionId">
-            </slv-select>
-            <button mat-stroked-button color="primary" (click)="methods.save()">
-        <mat-icon>done</mat-icon>
-      </button>
-            <button mat-stroked-button color="primary" (click)="methods.clear()">
-        <mat-icon>clear</mat-icon>
-      </button>
+            <slv-select *ngIf="page.isUpdating" [dataSource]="dataSources.sessions" [(selectedId)]="page.sessionId"></slv-select>
+            <slv-button icon="done" (click)="methods.save()"></slv-button>
+            <slv-button icon="clear" (click)="methods.clear()"></slv-button>
         </div>
     </div>
 </div>

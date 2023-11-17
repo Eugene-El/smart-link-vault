@@ -20,16 +20,9 @@
                 </div>
             </div>
             <div class="buttons">
-                <button mat-stroked-button color="primary" (click)="methods.loadSession(session)">
-                    <mat-icon>open_in_browser</mat-icon>
-                </button>
-                <button mat-stroked-button color="primary" (click)="methods.setIsfavorite(session)">
-                    <mat-icon *ngIf="!session.isFavorite">star</mat-icon>
-                    <mat-icon *ngIf="session.isFavorite">star_border</mat-icon>
-                </button>
-                <button mat-stroked-button color="primary" (click)="methods.delete(session)">
-                    <mat-icon>delete</mat-icon>
-                </button>
+                <slv-button icon="open_in_browser" [small]="true" (click)="methods.loadSession(session)"></slv-button>
+                <slv-button [icon]="session.isFavorite ? 'star_border' : 'star'" [small]="true" (click)="methods.setIsfavorite(session)"></slv-button>
+                <slv-button icon="delete" [small]="true" (click)="methods.delete(session)"></slv-button>
             </div>
         </div>
     </div>

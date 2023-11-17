@@ -1,0 +1,46 @@
+svg.visual-checkbox {
+    height: 22px;
+    width: 22px;
+}
+
+svg.visual-checkbox rect {
+    fill: transparent;
+    stroke-width: 1;
+    stroke: var(--cl-light-1);
+}
+
+svg.visual-checkbox polyline {
+    fill: none;
+    stroke: var(--cl-light-1);
+    stroke-width: 3;
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+}
+
+svg.visual-checkbox:not(.checked) polyline {
+    animation: uncheck 0.6s;
+    animation-fill-mode: forwards;
+}
+
+svg.visual-checkbox.checked polyline {
+    animation: check 0.6s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes check {
+    from {
+        stroke-dashoffset: 30;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes uncheck {
+    from {
+        stroke-dashoffset: 0;
+    }
+    to {
+        stroke-dashoffset: 30;
+    }
+}

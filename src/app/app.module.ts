@@ -1,11 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { RoutingModule } from './routing/routing.module';
-import { MenuComponent } from './common/components/menu/menu.component';
+import { MenuComponent } from './common/components/slv-menu/menu.component';
 import { LoadSessionComponent } from './pages/load-session/load-session.component';
-import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { SaveSessionComponent } from './pages/save-session/save-session.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { SlvSelectComponent } from './common/components/slv-select/slv-select.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SlvLoadingComponent } from './common/components/slv-loading/slv-loading.component';
+import { SlvCheckboxComponent } from './common/components/slv-checkbox/slv-checkbox.component';
+import { SlvButtonComponent } from './common/components/slv-button/slv-button.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,8 @@ import { SlvLoadingComponent } from './common/components/slv-loading/slv-loading
     MenuComponent,
     SaveSessionComponent,
     LoadSessionComponent,
-    ConfigurationsComponent,
+    SlvCheckboxComponent,
+    SlvButtonComponent,
   ],
   imports: [
     BrowserModule,

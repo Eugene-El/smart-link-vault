@@ -13,6 +13,7 @@
         "name buttons"
         "icons buttons";
     grid-template-columns: 1fr auto;
+    gap: 8px;
 }
 .session-list .session:hover {
     background-color: var(--cl-dark-2);
@@ -30,18 +31,15 @@
 
     padding: 6px 0;
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
 }
 .session-list .session .buttons {
     grid-area: buttons;
     
     display: flex;
-    gap: 6px;
-}
-.session-list .session .buttons > [mat-stroked-button] {
-    padding: 0 3px 3px 3px;
-    min-width: unset;
-    margin: auto 0;
+    align-items: center;
+    gap: 4px;
 }
 
 .session-list .session .icons > div {

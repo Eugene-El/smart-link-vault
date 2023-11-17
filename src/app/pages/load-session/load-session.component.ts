@@ -6,7 +6,6 @@ import { DataService } from 'src/app/common/services/data/data-service';
 import { LoadingService } from 'src/app/common/services/loading.service';
 
 @Component({
-  selector: 'slv-load-session',
   templateUrl: './load-session.component.html',
   styleUrls: ['./load-session.component.css']
 })

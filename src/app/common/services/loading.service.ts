@@ -12,7 +12,7 @@ export class LoadingService {
     private isLoading = false;
     private promises = new Array<Promise<any>>();
 
-    public handlePromise(promise: Promise<any>): Promise<any> {
+    public handlePromise<T>(promise: Promise<T>): Promise<T> {
         this.startLoading();
         this.promises.push();
         let onPromiseFinish = () => {

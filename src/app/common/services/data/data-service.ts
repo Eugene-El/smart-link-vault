@@ -32,12 +32,10 @@ export class DataService implements IDataService {
                 resolve(database);
             }
             request.onupgradeneeded = (e) => {
-                console.log("onupgradeneeded");
                 let database = (e.target as any)?.result as IDBDatabase;
                 if (database == null)
                     reject("Can't create IndexDB");
                 this.populateDB(database);
-                console.log("resolve");
                 const transaction = (e.target as any).transaction;
                 transaction.oncomplete = () => {
                     resolve(database);

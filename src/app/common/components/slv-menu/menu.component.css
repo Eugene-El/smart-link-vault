@@ -1,6 +1,6 @@
 .menu-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     height: 65px;
 
     border-bottom: 2px solid var(--cl-light-1);

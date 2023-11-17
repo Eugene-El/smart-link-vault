@@ -1,0 +1,5 @@
+<button mat-stroked-button color="primary" [ngClass]="small ? 'small' : ''">
+    <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+    <span *ngIf="content.innerHTML.length">&nbsp;</span>
+    <span #content><ng-content></ng-content></span>
+</button>

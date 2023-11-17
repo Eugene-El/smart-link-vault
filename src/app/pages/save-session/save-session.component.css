@@ -1,11 +1,24 @@
-/* .tab-list {
-} */
+
+.group {
+    margin: 1em;
+    border: 2px solid var(--cl-light-1);
+    border-radius: 8px;
+}
+
+.group-color {
+    background-color: var(--cl-light-1-tr-2);
+    border-radius: 50%;
+    width: 21px;
+    height: 21px;
+}
 
 .tab {
     padding: 12px 6px;
     display: grid;
     grid-template-columns: auto auto 1fr;
-    grid-column-gap: 6px;
+    grid-column-gap: 8px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .tab:hover {
@@ -17,6 +30,10 @@
     display: flex;
     margin: auto 0;
     word-break: break-word;
+}
+
+.tab .checkbox-container {
+    height: 22px;
 }
 
 .tab .icon-box {
@@ -32,61 +49,22 @@
 
 .tab.select-all {
     position: sticky;
+    margin: 0 1em 1em;
     top: 0;
     background-color: var(--cl-dark-1);
-    border-bottom: 1px solid var(--cl-light-1);
+    border: 2px solid var(--cl-light-1);
+    border-top: none;
+    border-radius: 0;
+    z-index: 100;
 }
 
-.tab.select-all .select-all-lbl {
-    margin-left: 32px;
-    font-weight: bolder;
-}
-
-svg.visual-checkbox {
-    height: 22px;
-    width: 22px;
-}
-
-svg.visual-checkbox rect {
-    fill: transparent;
-    stroke-width: 1;
-    stroke: var(--cl-light-1);
-}
-
-svg.visual-checkbox polyline {
-    fill: none;
-    stroke: var(--cl-light-1);
-    stroke-width: 3;
-    stroke-dasharray: 30;
-    stroke-dashoffset: 30;
-}
-
-svg.visual-checkbox:not(.checked) polyline {
-    animation: uncheck 0.6s;
-    animation-fill-mode: forwards;
-}
-
-svg.visual-checkbox.checked polyline {
-    animation: check 0.6s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes check {
-    from {
-        stroke-dashoffset: 30;
-    }
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-@keyframes uncheck {
-    from {
-        stroke-dashoffset: 0;
-    }
-    to {
-        stroke-dashoffset: 30;
-    }
+.tab.select-group {
+    position: sticky;
+    top: 47px;
+    background-color: var(--cl-dark-1);
+    border-bottom: 2px solid var(--cl-light-1);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .page-footer>div.buttons {
